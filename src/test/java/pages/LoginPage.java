@@ -2,16 +2,12 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
+import utils.WaitUtils;
 
 public class LoginPage {
 
     private WebDriver driver;
-    private WebDriverWait wait;
+    private WaitUtils waitUtils;
 
     //Locators
     private By username = By.name("username");
@@ -24,24 +20,23 @@ public class LoginPage {
     public LoginPage (WebDriver driver) {
 
         this.driver=driver;
-        this.wait= new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.waitUtils = new WaitUtils(driver);
     }
 
     //Actions
     public void enterUsername(String userNameValue){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(username));
-        driver.findElement(username).sendKeys(userNameValue);
+        waitUtils.waitForElementVisible(username).sendKeys(userNameValue);
 
     }
 
     public void enterPassword(String passwordValue){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(password));
-        driver.findElement(password).sendKeys(passwordValue);
+
+        waitUtils.waitForElementVisible(password).sendKeys(passwordValue);
+
     }
 
     public DashboardPage clickLogin() {
-        wait.until(ExpectedConditions.elementToBeClickable(loginBtn));
-        driver.findElement(loginBtn).click();
+        waitUtils.waitForElementClickable(loginBtn).click();
         return new DashboardPage(driver);
     }
 
@@ -53,7 +48,7 @@ public class LoginPage {
 
     public boolean isInvalidCredentialsDisplayed() {
 
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(invalidCredentialsMessage))
+        return waitUtils.waitForElementVisible(invalidCredentialsMessage)
                     .isDisplayed();
     }
 
