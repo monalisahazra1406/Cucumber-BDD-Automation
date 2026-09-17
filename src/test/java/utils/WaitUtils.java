@@ -34,4 +34,11 @@ public class WaitUtils {
 
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
+
+    public WebElement waitForAttributeNotEmpty(By locator, String attribute){
+
+        WebElement element = waitForElementVisible(locator);
+        wait.until(ExpectedConditions.attributeToBeNotEmpty(element, attribute));
+        return element;
+    }
 }
