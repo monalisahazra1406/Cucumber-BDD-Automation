@@ -10,6 +10,8 @@ public class PIMPage {
 
     private By addEmployeeLink = By.linkText("Add Employee");
 
+    private By employeeListTab =  By.linkText("Employee List");
+
     public PIMPage(WebDriver driver){
         this.waitUtils = new WaitUtils(driver);
 
@@ -17,6 +19,10 @@ public class PIMPage {
 
     public void clickOnAddEmployeeLink(){
         waitUtils.waitForElementClickable(addEmployeeLink).click();
+    }
+
+    public void navigateToEmployeeList(){
+        waitUtils.waitForElementVisible(employeeListTab).click();
     }
 
 }

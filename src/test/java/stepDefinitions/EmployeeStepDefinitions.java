@@ -5,9 +5,8 @@ import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pages.AddEmployeePage;
-import pages.PIMPage;
-import pages.SideMenu;
+import org.testng.Assert;
+import pages.*;
 
 public class EmployeeStepDefinitions {
 
@@ -15,6 +14,8 @@ public class EmployeeStepDefinitions {
     private PIMPage pimPage;
     private AddEmployeePage addEmployeePage;
     private String generatedEmployeeId;
+    private PersonalDetailsPage personalDetailsPage;
+    private EmployeeListPage employeeListPage;
 
     @When("the user navigates to the PIM module")
     public void userNavigatesToPIMModule() {
@@ -34,18 +35,30 @@ public class EmployeeStepDefinitions {
         addEmployeePage.enterLastName(lastName);
 
         generatedEmployeeId = addEmployeePage.getEmployeeId();
+        System.out.println("Generated Employeee id----- " + generatedEmployeeId);
         addEmployeePage.clickOnSaveBtn();
     }
 
     @Then("the employee should be created successfully")
     public void theEmployeeShouldBeCreatedSuccessfully() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
+        personalDetailsPage = new PersonalDetailsPage(DriverFactory.getDriver());
+        Assert.assertTrue(personalDetailsPage.isPersonalDetailsDisplayed(), "Personal Details page was not displayed after employee creation");
+        ;
     }
 
     @And("the employee should be searchable using the generated employee ID")
     public void theEmployeeShouldBeSearchableUsingTheGeneratedEmployeeID() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
+        Assert.assertNotNull(generatedEmployeeId, "Generated employee ID was null");
+        Assert.assertFalse(generatedEmployeeId.isBlank(), "Generated employee ID was blank");
+
+        pimPage = new PIMPage(DriverFactory.getDriver());
+        pimPage.navigateToEmployeeList();
+
+        employeeListPage = new EmployeeListPage(DriverFactory.getDriver());
+        employeeListPage.searchEmployeeById(generatedEmployeeId);
+
+        Assert.assertTrue(employeeListPage.isEmployeeDisplayed(generatedEmployeeId), "Employee with id " + generatedEmployeeId + "was not found in list");
     }
 }

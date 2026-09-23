@@ -9,6 +9,6 @@ Feature: OrangeHRM Employee Management
   @regression
   Scenario: Add a new employee and verify the generated employee ID
     When the user navigates to the PIM module
-    And the user adds a new employee with first name "Automation" and last name "User"
+    And the user adds a new employee with first name "TheBoy" and last name "InStripedPyjamas"
     Then the employee should be created successfully
     And the employee should be searchable using the generated employee ID

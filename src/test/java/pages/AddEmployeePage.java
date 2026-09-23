@@ -10,9 +10,9 @@ public class AddEmployeePage {
 
     private By firstName = By.name("firstName");
     private By lastName = By.name("lastName");
-    private By employeeId = By.xpath(
-            "//label[normalize-space()='Employee Id']/ancestor::div[contains(@class,'oxd-input-group')]//input");
-    private By saveBtn = By.xpath("//button[@type='submit' and normalize-space()='Save']");
+    private By employeeId = By.xpath("//label[normalize-space()='Employee Id']/ancestor::div[contains(@class,'oxd-input-group')]//input");
+    private By saveBtn = By.xpath("//button[normalize-space()='Save']");
+    private By formLoader = By.className("oxd-form-loader");
 
     public AddEmployeePage(WebDriver driver){
         this.waitUtils = new WaitUtils(driver);
@@ -32,6 +32,7 @@ public class AddEmployeePage {
     }
 
     public void clickOnSaveBtn(){
+        waitUtils.waitForElementInvisible(formLoader);
         waitUtils.waitForElementClickable(saveBtn).click();
     }
 
