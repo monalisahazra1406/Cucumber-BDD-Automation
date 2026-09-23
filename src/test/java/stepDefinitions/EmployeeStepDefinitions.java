@@ -5,6 +5,8 @@ import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import pages.*;
 
@@ -16,6 +18,9 @@ public class EmployeeStepDefinitions {
     private String generatedEmployeeId;
     private PersonalDetailsPage personalDetailsPage;
     private EmployeeListPage employeeListPage;
+
+    private static final Logger logger  = LoggerFactory.getLogger(EmployeeStepDefinitions.class);
+
 
     @When("the user navigates to the PIM module")
     public void userNavigatesToPIMModule() {
@@ -35,7 +40,7 @@ public class EmployeeStepDefinitions {
         addEmployeePage.enterLastName(lastName);
 
         generatedEmployeeId = addEmployeePage.getEmployeeId();
-        System.out.println("Generated Employeee id----- " + generatedEmployeeId);
+        logger.info("Generated Employee ID: {}", generatedEmployeeId);
         addEmployeePage.clickOnSaveBtn();
     }
 

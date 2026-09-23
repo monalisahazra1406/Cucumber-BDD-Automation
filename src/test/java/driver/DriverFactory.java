@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.ConfigReader;
 
 import java.util.Locale;
@@ -11,6 +13,7 @@ import java.util.Locale;
 public class DriverFactory {
 
     private static final ThreadLocal<WebDriver>  driver = new ThreadLocal<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(DriverFactory.class);
 
     public static void initializeDriver(){
 
@@ -36,8 +39,7 @@ public class DriverFactory {
         }
 
         driver.set(localDriver);
-        System.out.println("Initialized -> Thread: "+ Thread.currentThread().threadId()
-        +" Driver : " + System.identityHashCode(getDriver()));
+        LOGGER.info("Initialized {} browser on thread {}",browser, Thread.currentThread().threadId());
         getDriver().manage().window().maximize();
 
     }
@@ -51,12 +53,7 @@ public class DriverFactory {
 
         if(getDriver() != null){
 
-            System.out.println(
-                    "QUITTING -> Thread: "
-                            + Thread.currentThread().threadId()
-                            + " | Driver: "
-                            + System.identityHashCode(getDriver())
-            );
+            LOGGER.info("Clossing browser on thread {}", Thread.currentThread().threadId());
             getDriver().quit();
             driver.remove();
         }

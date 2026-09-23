@@ -10,7 +10,9 @@ import org.testng.annotations.DataProvider;
         //tags = "@smoke",
         plugin = {
                 "pretty",
-                "html:target/cucumber-report.html"
+                "html:target/cucumber-report.html",
+                "json:target/cucumber-report.json",
+                "junit:target/cucumber-report.xml"
         }
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
