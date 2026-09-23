@@ -2,13 +2,17 @@ package driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ConfigReader;
 
 import java.util.Locale;
+
 
 public class DriverFactory {
 
@@ -18,20 +22,33 @@ public class DriverFactory {
     public static void initializeDriver(){
 
         String browser = ConfigReader.getProperty("browser");
+        boolean headless = Boolean.parseBoolean(ConfigReader.getProperty("headless"));
         WebDriver localDriver ;
 
         switch (browser.toLowerCase()){
 
             case "chrome":
-                localDriver = new ChromeDriver();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                if(headless){
+                    chromeOptions.addArguments("--headless=new", "--window-size=1920,1000");
+                }
+                localDriver = new ChromeDriver(chromeOptions);
                 break;
 
             case "firefox":
-                localDriver = new FirefoxDriver();
+                FirefoxOptions fireFoxOptions = new FirefoxOptions();
+                if(headless){
+                    fireFoxOptions.addArguments("--headless=new", "--window-size=1920,1000");
+                }
+                localDriver = new FirefoxDriver(fireFoxOptions);
                 break;
 
             case "edge":
-                localDriver = new EdgeDriver();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                if(headless){
+                    edgeOptions.addArguments("--headless=new", "window-size=1920,1000");
+                }
+                localDriver = new EdgeDriver(edgeOptions);
                 break;
 
             default:
@@ -39,9 +56,10 @@ public class DriverFactory {
         }
 
         driver.set(localDriver);
-        LOGGER.info("Initialized {} browser on thread {}",browser, Thread.currentThread().threadId());
-        getDriver().manage().window().maximize();
-
+        LOGGER.info("Initialized {} browser | Headless:{} | Thread: {}",browser,headless, Thread.currentThread().threadId());
+        if(!headless) {
+            getDriver().manage().window().maximize();
+        }
     }
 
     public static WebDriver getDriver(){
