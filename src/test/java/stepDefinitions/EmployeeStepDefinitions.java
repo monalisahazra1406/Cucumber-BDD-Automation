@@ -39,9 +39,18 @@ public class EmployeeStepDefinitions {
         addEmployeePage.enterFirstName(firstName);
         addEmployeePage.enterLastName(lastName);
 
-        generatedEmployeeId = addEmployeePage.getEmployeeId();
+        generatedEmployeeId = addEmployeePage.enterUniqueEmployeeId();
         logger.info("Generated Employee ID: {}", generatedEmployeeId);
         addEmployeePage.clickOnSaveBtn();
+        logger.info(
+                "URL after clicking Save: {}",
+                DriverFactory.getDriver().getCurrentUrl()
+        );
+
+        logger.info(
+                "Page title after clicking Save: {}",
+                DriverFactory.getDriver().getTitle()
+        );
     }
 
     @Then("the employee should be created successfully")

@@ -1,7 +1,9 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import utils.WaitUtils;
 
 public class AddEmployeePage {
@@ -34,6 +36,18 @@ public class AddEmployeePage {
     public void clickOnSaveBtn(){
         waitUtils.waitForElementInvisible(formLoader);
         waitUtils.waitForElementClickable(saveBtn).click();
+    }
+
+    public String enterUniqueEmployeeId(){
+
+        String uniqueEmployeeId = String.valueOf(System.currentTimeMillis() % 100000000L);
+        WebElement employeeField = waitUtils.waitForElementVisible(employeeId);
+        waitUtils.waitForElementInvisible(formLoader);
+        employeeField.click();
+        employeeField.sendKeys(Keys.CONTROL,"a");
+        employeeField.sendKeys(Keys.DELETE);
+        employeeField.sendKeys(uniqueEmployeeId);
+        return uniqueEmployeeId;
     }
 
 

@@ -71,7 +71,7 @@ public class DriverFactory {
 
         if(getDriver() != null){
 
-            LOGGER.info("Clossing browser on thread {}", Thread.currentThread().threadId());
+            LOGGER.info("Closing browser on thread {}", Thread.currentThread().threadId());
             getDriver().quit();
             driver.remove();
         }
